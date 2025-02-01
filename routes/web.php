@@ -13,7 +13,15 @@ use Inertia\Inertia;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+// Define the admin routes
+// Route::prefix('admin')->group(function () {
+Route::get('/admin{any}', function () {
+  // dd("ddd");
+  return view('admin');
+})->where('any', '.*');
+// });
 
-Route::get('/', function () {
-  return Inertia::render("index");
-});
+// Define the catch-all route for the user frontend
+Route::get('/{any}', function () {
+  return view('app');
+})->where('any', '.*');
