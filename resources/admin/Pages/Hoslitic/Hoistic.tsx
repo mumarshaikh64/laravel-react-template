@@ -1,10 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { BiEdit, BiSearch, BiTrash } from 'react-icons/bi';
-import { useMainContext } from '../../Context/MainContext';
+import { BaseApi, useMainContext } from '../../Context/MainContext';
+import ConfirmationModal from '../Components/Modal/ConfirmationModal';
+import { toast } from 'react-toastify';
+import { isAxiosError } from 'axios';
 
 const Holistic = () => {
     const MainContext = useMainContext();
-
+    const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+    const [data, setData] = useState<any>(null);
 
     const tableHeader = [
         {
@@ -24,10 +28,34 @@ const Holistic = () => {
             key: "price",
         },
         {
+            title: "Type",
+            key: "type",
+        },
+        {
             title: "Action",
             key: "action",
         }
     ];
+
+
+    const onDelete = async () => {
+        try {
+            const response = await BaseApi.get(`planProduct/delep/${data?.id}`);
+            if (response.status == 200) {
+                toast.success("Delete Page Success");
+                window.location.reload();
+            }
+        } catch (error) {
+            if (isAxiosError(error)) {
+                if (error.response?.status == 404) {
+                    toast.error("Page Not Found");
+                } else {
+                    toast.error(`${error.response?.data['message'] ?? error.message}`)
+                }
+            }
+        }
+    }
+
     return (
         <div className='rounded px-4 py-4 mt-4'>
             <div className='flex px-4 items-center justify-between'>
@@ -36,7 +64,7 @@ const Holistic = () => {
                     <BiSearch className='text-[18px]' />
                 </div>
                 <button onClick={() => {
-                    window.location.href = ("/admin/page/addHolistic");
+                    window.location.href = ("/page/addHolistic/0");
                 }} className='bg-[#4091ca] px-4 py-2 rounded font-[700] text-[#fff] shadow-md hover:bg-[#4091cade] outline-one'>Add New</button>
             </div>
 
@@ -72,17 +100,20 @@ const Holistic = () => {
                                                     <td scope="col" className="px-6 py-3">
                                                         {d?.price}
                                                     </td>
+                                                    <td scope="col" className="px-6 py-3">
+                                                        {d?.type}
+                                                    </td>
 
                                                     <td scope="col" className="px-6 py-3 flex">
                                                         <BiEdit
                                                             onClick={() => {
-                                                                // window.location.href = (`/pages/editor/${d?.id}`);
+                                                                window.location.href = (`/page/addHolistic/${d?.id}`);
                                                             }}
                                                             cursor={'pointer'} className='text-[18px]' />
                                                         <BiTrash
                                                             onClick={() => {
-                                                                // setData(d);
-                                                                // setIsDeleteOpen(true);
+                                                                setData(d);
+                                                                setIsDeleteOpen(true);
                                                             }}
                                                             style={{ marginInline: 5 }} cursor={'pointer'} className='text-[18px]' />
                                                     </td>
@@ -101,6 +132,7 @@ const Holistic = () => {
                 </table>
             </div>
 
+            <ConfirmationModal open={isDeleteOpen} onDelete={() => { onDelete(); }} handleClose={() => { setIsDeleteOpen(false) }} />
         </div>
     )
 }

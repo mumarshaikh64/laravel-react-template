@@ -14,7 +14,10 @@ const Header = () => {
 
     useEffect(() => {
         setIsBannerShow(pathname === "/");
+        setMobileMenuOpen(false);
     }, [pathname]);
+
+    
 
     return (
         <>
@@ -68,11 +71,12 @@ const Header = () => {
                             {/* <a className="px-2 py-2 bg-[#66bc43] rounded-full text-[14px] text-[#111]">
                                 <FaSearch />
                             </a> */}
-                            {mainContext?.token ? <DropdownButton /> : (
-                                <Link to="/user/auth" className="px-2 py-2 bg-[#66bc43] rounded-full text-[14px] text-[#111]">
-                                    <FaUserAlt />
+                            {/* {mainContext?.token ? <DropdownButton /> : (
+                                <Link to="/user/auth" className="px-4 py-2 bg-[#66bc43] rounded   text-[14px] text-[#fff] font-[600]">
+                                    Sign In
+
                                 </Link>
-                            )}
+                            )} */}
                         </div>
                     </div>
                 </div>
@@ -110,7 +114,7 @@ const MobileMenuItem = ({ link }: { link: any }) => {
                 onClick={() => setOpen(!open)}
                 className="w-full text-left text-gray-800 font-bold py-2 flex justify-between items-center"
             >
-                {link?.children12?.length > 0 ? <span>{ link.title }</span> : <Link to={link?.uri}>{link.title}</Link>}
+                {link?.children12?.length > 0 ? <span>{link.title}</span> : <Link to={link?.uri}>{link.title}</Link>}
                 {link.children12?.length > 0 && <span>{open ? "▲" : "▼"}</span>}
             </button>
 

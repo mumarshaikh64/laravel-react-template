@@ -59,6 +59,8 @@
     "@editorjs/paragraph": "^2.11.7",
     "@grapesjs/studio-sdk": "^1.0.27",
     "@react-login-page/page8": "^1.0.4",
+    "@stripe/react-stripe-js": "^3.1.1",
+    "@stripe/stripe-js": "^5.6.0",
     "@wordpress/block-editor": "^14.9.0",
     "@wordpress/blocks": "^14.3.0",
     "@wordpress/components": "^29.0.0",
@@ -81,7 +83,7 @@
     "react-login-page": "^1.0.4",
     "react-quill": "^2.0.0",
     "react-router-dom": "^7.1.1",
-    "react-tag-input": "^6.10.3",
+    "react-tag-input": "^6.10.6",
     "react-toastify": "^11.0.2",
     "styled-components": "^6.1.13"
   }

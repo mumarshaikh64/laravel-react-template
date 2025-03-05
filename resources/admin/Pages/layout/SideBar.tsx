@@ -6,67 +6,67 @@ import Logo from '../../assets/images/logo-1.png';
 const sideBarList = [
   {
     title: "Dashboard",
-    uri: "/admin",
+    uri: "/",
     icon: <BiSolidDashboard className='mx-2 text-[18px]' />
   },
   {
     title: "Header Menu",
-    uri: "/admin/category",
+    uri: "/category",
     icon: <BiSolidGrid className='mx-2 text-[18px]' />
   },
   {
     title: "Pages",
-    uri: "/admin/pages",
+    uri: "/pages",
     icon: <BiSolidCopy className='mx-2 text-[18px]' />
   },
   {
     title: "Directory Category",
-    uri: "/admin/page/category",
+    uri: "/page/category",
     icon: <BiCategory className='mx-2 text-[18px]' />
   },
   {
     title: "Directory Product",
-    uri: "/admin/page/products",
+    uri: "/page/products",
     icon: <BiTable className='mx-2 text-[18px]' />
   },
   {
     title: "Holistic",
-    uri: "/admin/page/holistic",
+    uri: "/page/holistic",
     icon: <BiHorizontalCenter className='mx-2 text-[18px]' />
   },
   // {
   //   title: "Blogs",
-  //   uri: "/admin/page/blogs",
+  //   uri: "/page/blogs",
   //   icon: <BiGridAlt className='mx-2 text-[18px]' />
   // },
   {
     title: "UHPC Standards",
-    uri: "/admin/page/standards",
+    uri: "/page/standards",
     icon: <BiSolidFilePdf className='mx-2 text-[18px]' />
   },
   // {
   //   title: "Certificate",
-  //   uri: "/admin/pages/certificate",
+  //   uri: "/pages/certificate",
   //   icon: <BiCertification className='mx-2 text-[18px]' />
   // },
-  {
-    title: "Events",
-    uri: "/admin/page/events",
-    icon: <BiSolidCalendarEvent className='mx-2 text-[18px]' />
-  },
+  // {
+  //   title: "Events",
+  //   uri: "/page/events",
+  //   icon: <BiSolidCalendarEvent className='mx-2 text-[18px]' />
+  // },
   {
     title: "Subscriber",
-    uri: "/admin/pages/subscriber",
+    uri: "/pages/subscriber",
     icon: <BiUser className='mx-2 text-[18px]' />
   },
   {
     title: "Users",
-    uri: "/admin/pages/users",
+    uri: "/pages/users",
     icon: <BiUser className='mx-2 text-[18px]' />
   },
   {
     title: "Contact",
-    uri: "/admin/pages/contact",
+    uri: "/pages/contact",
     icon: <BiSolidContact className='mx-2 text-[18px]' />
   },
 ];

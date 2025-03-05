@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BiTrash } from 'react-icons/bi';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { BaseApi, useMainContext } from '../../Context/MainContext';
 
 const AddProduct = () => {
     const navigate = useNavigate();
+    const { id } = useParams();
     const modules = {
         toolbar: [
             [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
@@ -23,6 +24,33 @@ const AddProduct = () => {
     };
 
 
+    useEffect(() => {
+        if (id != "0") {
+            getData();
+        }
+    }, [id]);
+
+
+    const getData = async () => {
+        const res = await BaseApi.get(`/product/${id}`);
+        if (res.status == 200) {
+            console.log(res.data);
+            setName(res?.data?.name);
+            setEmail(res.data?.email);
+            setNumber(res.data?.number);
+            setAddres(res?.data?.address);
+            setDestinasion(res?.data?.destination);
+            setCategoryId(res?.data?.categoryId);
+            setLevel(res?.data?.level);
+            setWebLink(res?.data?.web_link);
+            const social_links = JSON.parse(res?.data?.social_links);
+            setSocialLinks(social_links);
+            setValue(res?.data?.about);
+
+        }
+    }
+
+
 
     const [socialLinks, setSocialLinks] = useState([
         { platformName: '', platformLink: '' }
@@ -35,6 +63,8 @@ const AddProduct = () => {
     const [level, setLevel] = useState("");
     const [webLink, setWebLink] = useState("");
     const [address, setAddres] = useState("");
+    const [course, setCourse] = useState("");
+
     const [categoryId, setCategoryId] = useState("");
     const [tags, setTags]: any = useState([]);
 
@@ -84,6 +114,10 @@ const AddProduct = () => {
             errors.email = 'Email address is invalid';
             toast.error("Email address is invalid")
         }
+        // if (!course) {
+        //     errors.course = 'Course is required';
+        //     toast.error('Course is required')
+        // }
         if (!number) {
             errors.number = 'Number is required';
             toast.error("Number is required")
@@ -141,30 +175,62 @@ const AddProduct = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        try {
-            if (!validate()) {
-                return;
+        if (id == "0") {
+            try {
+                if (!validate()) {
+                    return;
+                }
+                const response = await BaseApi.post('/product/store', {
+                    name,
+                    destination,
+                    email,
+                    number,
+                    level,
+                    web_link: webLink,
+                    address,
+                    about: value,
+                    categoryId: categoryId,
+                    social_links: socialLinks,
+                    tags: tags,
+                    course_name: course
+
+                });
+                if (response.status == 200) {
+                    alert("Add Product Profile Success");
+                    window.location.replace("/page/products");
+                }
+                console.log('Item Created:', response.data);
+            } catch (error) {
+                console.error('Error creating item:', error);
             }
-            const response = await BaseApi.post('/product/store', {
-                name,
-                destination,
-                email,
-                number,
-                level,
-                web_link: webLink,
-                address,
-                about: value,
-                categoryId: categoryId,
-                social_links: socialLinks,
-                tags: tags,
-            });
-            if (response.status == 200) {
-                alert("Add Product Profile Success");
-                window.location.replace("/admin/page/products");
+        } else {
+            try {
+                if (!validate()) {
+                    return;
+                }
+                const response = await BaseApi.put(`/product/${id}`, {
+                    name,
+                    destination,
+                    email,
+                    number,
+                    level,
+                    web_link: webLink,
+                    address,
+                    about: value,
+                    categoryId: categoryId,
+                    social_links: socialLinks,
+                    tags: tags,
+                    course_name: course
+
+                });
+                if (response.status == 200) {
+                    alert("Add Product Profile Success");
+                    window.location.replace("/page/products");
+                }
+                console.log('Item Created:', response.data);
+            } catch (error) {
+                console.error('Error creating item:', error);
             }
-            console.log('Item Created:', response.data);
-        } catch (error) {
-            console.error('Error creating item:', error);
         }
     };
 
@@ -176,7 +242,7 @@ const AddProduct = () => {
             <div className='flex items-center '>
                 <button
                     onClick={() => {
-                        navigate('/admin/page/products')
+                        navigate('/page/products')
                     }} className='bg-[#4091ca] px-4 py-2 rounded font-[700] text-[#fff] shadow-md hover:bg-[#4091cade] outline-one'>Back</button>
                 <h2 className='text-[25px] mx-4 font-bold'>Add Product Profile </h2>
             </div>
@@ -224,6 +290,7 @@ const AddProduct = () => {
                         <select
                             className='w-full my-4 border-none bg-[#fff] shadow outline-none px-4 py-2 rounded'
                             onChange={(e) => setCategoryId(e.target.value!)}
+                            value={categoryId}
                         >
                             <option>--Select Category--</option>
                             {
@@ -238,6 +305,7 @@ const AddProduct = () => {
                         <select
                             className='w-full my-4 border-none bg-[#fff] shadow outline-none px-4 py-2 rounded'
                             onChange={(e) => setLevel(e.target.value!)}
+                            value={level}
                         >
                             <option>--Select Level--</option>
                             <option value={"Corporate Member"}>Corporate Member</option>
@@ -255,7 +323,6 @@ const AddProduct = () => {
                     <div className='md:w-[100%] mx-1 w-full'>
                         <label>Courses Offered</label>
                         <InputTag
-
                             onUpdateTags={(d) => setTags(d)} />
 
                         {/* <ReactTags   
@@ -310,7 +377,7 @@ const AddProduct = () => {
 
                     <div className="mt-4 flex w-full justify-end">
                         <button
-                            onClick={() => navigate('/admin/page/products')}
+                            onClick={() => navigate('/page/products')}
                             className="px-5 py-2 mx-2 bg-[#d0d3d4] text-white rounded hover:bg-[#ecf0f1]"
                         >
                             Close

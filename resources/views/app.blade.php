@@ -200,168 +200,300 @@
         .stripe+.stripe {
             margin-top: -60px;
         }
+
         .stripe {
-    position: relative;
-    margin: 60px 0;
-    padding: 80px 0;
-}
+            position: relative;
+            margin: 60px 0;
+            padding: 80px 0;
+        }
 
-.stripe.v-notch:after {
-    position: absolute;
-    left: 50%;
-    top: 0;
-    width: 0;
-    height: 0;
-    margin-left: -35px;
-    content: "";
-    border-top: 25px solid #fff;
-    border-left: 35px solid transparent;
-    border-right: 35px solid transparent;
-}
+        .stripe.v-notch:after {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            width: 0;
+            height: 0;
+            margin-left: -35px;
+            content: "";
+            border-top: 25px solid #fff;
+            border-left: 35px solid transparent;
+            border-right: 35px solid transparent;
+        }
 
-.stripe-dark-colored-gradient-bg+.stripe.v-notch:after {
-    --primary-color4: #5d6275;
-    border-top-color: var(--primary-color4);
-}
+        .stripe-dark-colored-gradient-bg+.stripe.v-notch:after {
+            --primary-color4: #5d6275;
+            border-top-color: var(--primary-color4);
+        }
 
-.FormBuilder, .InputfieldForm, .InputfieldForm input, .InputfieldForm select, .InputfieldForm textarea, .ui-widget, button {
-    font-family: "Open Sans", Arial, sans-serif;
-    font-size: 14px;
-    line-height: 1.5em;
-    box-sizing: border-box;
-}
-.InputfieldForm {
+        .FormBuilder,
+        .InputfieldForm,
+        .InputfieldForm input,
+        .InputfieldForm select,
+        .InputfieldForm textarea,
+        .ui-widget,
+        button {
+            font-family: "Open Sans", Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.5em;
+            box-sizing: border-box;
+        }
 
-    margin: 1rem 5rem;
-    padding: 2.5rem 2rem 2rem;
-    border-radius: 0.4rem;
-    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.12);
-    background-color: white;
-    width: 75%;
-}
+        .InputfieldForm {
 
-.FormBuilder, .InputfieldForm, .InputfieldForm input, .InputfieldForm select, .InputfieldForm textarea, .ui-widget, button {
-    font-family: "Open Sans", Arial, sans-serif;
-    font-size: 14px;
-    line-height: 1.5em;
-    box-sizing: border-box;
-}
+            margin: 1rem 5rem;
+            padding: 2.5rem 2rem 2rem;
+            border-radius: 0.4rem;
+            box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.12);
+            background-color: white;
+            width: 75%;
+        }
 
-.InputfieldForm, .InputfieldForm *, .InputfieldForm *:before, .InputfieldForm *:after {
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-}
-.InputfieldForm .Inputfields {
-    height: auto;
-    list-style: none;
-    padding: 0;
-}
-.InputfieldForm, .InputfieldForm *, .InputfieldForm *:before, .InputfieldForm *:after {
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-}
-.InputfieldForm .InputfieldFieldset:not(.InputfieldColumnWidth) {
-    clear: both;
-}
+        .FormBuilder,
+        .InputfieldForm,
+        .InputfieldForm input,
+        .InputfieldForm select,
+        .InputfieldForm textarea,
+        .ui-widget,
+        button {
+            font-family: "Open Sans", Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.5em;
+            box-sizing: border-box;
+        }
 
-@media only screen and (max-width: 479px) {
-    .InputfieldFormWidths .Inputfield {
-        clear: both !important;
-        width: 100% !important;
-        margin-left: 0 !important;
-        margin-bottom: 1em !important;
-    }
-}
-.InputfieldForm fieldset {
-    border: 1px solid #ccc;
-    border-radius: 0.2rem;
-    padding: 1rem;
-}
-.InputfieldForm .Inputfield {
-    list-style: none;
-    display: block;
-}
+        .InputfieldForm,
+        .InputfieldForm *,
+        .InputfieldForm *:before,
+        .InputfieldForm *:after {
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
 
-.InputfieldForm fieldset, .InputfieldForm .InputfieldFieldset {
-    margin: 0 0 1.5em 0;
-    padding-bottom: 0;
-}
-.InputfieldForm legend {
-    font-size: 1.5rem;
-    color: #0e2791;
-    font-weight: 600;
-    display: inline-block;
-    padding-bottom: 0.2rem;
-}
+        .InputfieldForm .Inputfields {
+            height: auto;
+            list-style: none;
+            padding: 0;
+        }
 
-@media only screen and (max-width: 479px) {
-    .Inputfield .InputfieldContent, .Inputfield .InputfieldHeader {
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-        float: none !important;
-        width: 100%;
-    }
-}
-.Inputfields>.Inputfield>.InputfieldContent:before, .Inputfields>.Inputfield>.InputfieldContent:after, .InputfieldForm:after {
-    content: " ";
-    display: table;
-}
-.InputfieldForm .Inputfields {
-    height: auto;
-    list-style: none;
-    padding: 0;
-}
-.InputfieldForm .Inputfield:not(fieldset) {
-    padding: 0;
-}
-@media only screen and (max-width: 479px) {
-    .InputfieldFormWidths .Inputfield {
-        clear: both !important;
-        width: 100% !important;
-        margin-left: 0 !important;
-        margin-bottom: 1em !important;
-    }
-}
-.InputfieldForm label {
-    color: #0e2791;
-    font-weight: 600;
-    display: inline-block;
-    padding-bottom: 0.2rem;
-}
-@media only screen and (max-width: 479px) {
-    .Inputfield .InputfieldContent, .Inputfield .InputfieldHeader {
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-        float: none !important;
-        width: 100%;
-    }
-}
+        .InputfieldForm,
+        .InputfieldForm *,
+        .InputfieldForm *:before,
+        .InputfieldForm *:after {
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
 
-.InputfieldForm input[type=email], .InputfieldForm input[type=number], .InputfieldForm input[type=text], .InputfieldForm input[type=url], .InputfieldForm select, .InputfieldForm textarea {
-    border: none;
-    background: whitesmoke;
-    padding: 0.75rem;
-    width: 100%;
-    margin-block: 1rem;
-    border-radius: 0.2rem;
-}
+        .InputfieldForm .InputfieldFieldset:not(.InputfieldColumnWidth) {
+            clear: both;
+        }
 
-.InputfieldForm button {
-    background-color: #3e4d87;
-    border: 2px solid #3e4d87;
-    color: white;
-    padding: 0.75rem 1.5rem;
-    transition: all 0.2s;
-    font-weight: 600;
-    cursor: pointer;
-}
+        @media only screen and (max-width: 479px) {
+            .InputfieldFormWidths .Inputfield {
+                clear: both !important;
+                width: 100% !important;
+                margin-left: 0 !important;
+                margin-bottom: 1em !important;
+
+            }
+
+            .InputfieldForm {
+                margin: 1rem 1rem !important;
+                padding: 2.5rem 2rem 2rem !important;
+                border-radius: 0.4rem;
+                box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.12);
+                background-color: white;
+                width: 90% !important;
+            }
+
+
+            .InputfieldForm label {
+                color: #0e2791;
+                font-size: 0.8rem;
+                font-weight: 600;
+                display: inline-block;
+                padding-bottom: 0.2rem;
+            }
+
+            .InputfieldForm legend {
+                font-size: 0.8rem !important;
+                color: #0e2791;
+                font-weight: 600;
+                display: inline-block;
+                padding-bottom: 0.2rem;
+            }
+
+
+        }
+
+        .InputfieldForm fieldset {
+            border: 1px solid #ccc;
+            border-radius: 0.2rem;
+            padding: 1rem;
+        }
+
+        .InputfieldForm .Inputfield {
+            list-style: none;
+            display: block;
+        }
+
+        .InputfieldForm fieldset,
+        .InputfieldForm .InputfieldFieldset {
+            margin: 0 0 1.5em 0;
+            padding-bottom: 0;
+        }
+
+        .InputfieldForm legend {
+            font-size: 1.5rem;
+            color: #0e2791;
+            font-weight: 600;
+            display: inline-block;
+            padding-bottom: 0.2rem;
+        }
+
+        @media only screen and (max-width: 479px) {
+
+            .Inputfield .InputfieldContent,
+            .Inputfield .InputfieldHeader {
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+                float: none !important;
+                width: 100%;
+            }
+        }
+
+        .Inputfields>.Inputfield>.InputfieldContent:before,
+        .Inputfields>.Inputfield>.InputfieldContent:after,
+        .InputfieldForm:after {
+            content: " ";
+            display: table;
+        }
+
+        .InputfieldForm .Inputfields {
+            height: auto;
+            list-style: none;
+            padding: 0;
+        }
+
+        .InputfieldForm .Inputfield:not(fieldset) {
+            padding: 0;
+        }
+
+        @media only screen and (max-width: 479px) {
+            .InputfieldFormWidths .Inputfield {
+                clear: both !important;
+                width: 100% !important;
+                margin-left: 0 !important;
+                margin-bottom: 1em !important;
+            }
+        }
+
+        .InputfieldForm label {
+            color: #0e2791;
+            font-weight: 600;
+            display: inline-block;
+            padding-bottom: 0.2rem;
+        }
+
+        @media only screen and (max-width: 479px) {
+
+            .Inputfield .InputfieldContent,
+            .Inputfield .InputfieldHeader {
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+                float: none !important;
+                width: 100%;
+            }
+        }
+
+        .InputfieldForm input[type=email],
+        .InputfieldForm input[type=number],
+        .InputfieldForm input[type=text],
+        .InputfieldForm input[type=url],
+        .InputfieldForm select,
+        .InputfieldForm textarea {
+            border: none;
+            background: whitesmoke;
+            padding: 0.75rem;
+            width: 100%;
+            margin-block: 1rem;
+            border-radius: 0.2rem;
+        }
+
+        .InputfieldForm button {
+            background-color: #3e4d87;
+            border: 2px solid #3e4d87;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            transition: all 0.2s;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .InputfieldForm .InputfieldRadiosStacked {
+            background: rgba(245, 245, 245, 0.45);
+            border: 1px solid whitesmoke;
+            padding: 1rem !important;
+            list-style: none;
+        }
+
+        .StripeElement {
+            background: #f5f5f5;
+            padding-block: 15px;
+            padding-inline: 10px;
+        }
+
+        .myLlist li:nth-child(even) {
+            padding-block: 3px;
+            font-size: 14px;
+            /* background-color: lightgray; Apply styles to even elements */
+        }
+
+        .myLlist li:nth-child(odd) {
+            padding-block: 3px;
+            font-size: 14px;
+            /* background-color: lightgray; Apply styles to even elements */
+        }
+
+        .ReactTags__tag {
+            padding: 4px 7px !important;
+            cursor: move !important;
+            background: rgb(214, 214, 214) !important;
+            margin-inline: 4px;
+            border-radius: 5px
+        }
+
+        .ReactTags__tag button {
+            margin-left: 5px !important;
+            background-color: #3e4d87 !important;
+            border: 0px solid #3e4d87 !important;
+            color: white !important;
+            padding: 0rem 0rem !important;
+            transition: all 0.2s;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .InputfieldForm .InputfieldCheckbox .InputfieldContent, .InputfieldForm .InputfieldCheckboxesStacked, .InputfieldForm .InputfieldFormBuilderFile .InputfieldContent, .InputfieldForm .InputfieldMarkup .InputfieldContent, .InputfieldForm .InputfieldRadiosFloated, .InputfieldForm .InputfieldRadiosStacked {
+            background: rgba(245, 245, 245, 0.45) !important;
+            border: 1px solid whitesmoke;
+            padding: 1rem !important;
+            list-style: none;
+        }
+        .FormBuilder-trainingproviderapplication span,.FormBuilder-trainingproviderapplication p{
+            font-size: 13px;
+            margin-block: 4px;
+            color: rgb(62, 100, 182);
+            padding-block: 5px
+        }
     </style>
     <!-- Scripts -->
     @routes
     @viteReactRefresh
     @vite(['resources/react/App.tsx'])
+    {{-- <script src="https://js.stripe.com/v3/"></script> --}}
+
 </head>
 
 <body>

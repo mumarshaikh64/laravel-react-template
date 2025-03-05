@@ -32,12 +32,14 @@ use App\Models\Page;
 |
 */
 
+
+Route::post('productUpdate', [ProductController::class, 'submitForm']);
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
 Route::post('postcontact', [ContactApiController::class, 'submitForm']);
-
 
 // Route::group(["prefix"=>"contact"],function(){
 //     Route::get('/', [ContactApiController::class, 'index']);
@@ -68,6 +70,13 @@ Route::group(['prefix' => 'certificate'], function () {
     Route::post("/store", [CertificateController::class, 'create']);
 });
 
+
+
+Route::group(['prefix' => 'applayForm'], function () {
+    Route::get("/", [CertificateController::class, 'index']);
+    Route::post("/store", [CertificateController::class, 'create']);
+});
+
 Route::group(['prefix' => 'subscribe'], function () {
     Route::get("/", [SubscribeController::class, 'index']);
     Route::post("/store", [SubscribeController::class, 'create']);
@@ -90,8 +99,13 @@ Route::group(['prefix' => 'category'], function () {
 
 Route::group(['prefix' => 'product'], function () {
     Route::get("/", [ProductProfileController::class, 'index']);
+    Route::get("/{id}", [ProductProfileController::class, 'getById']);
     Route::get("/web/{id}", [ProductProfileController::class, 'webProduct']);
+    Route::get("/search/{value}", [ProductProfileController::class, 'webProductSearch']);
     Route::post("/store", [ProductProfileController::class, 'store']);
+    Route::put('/{id}', [ProductProfileController::class, 'update']);
+    Route::delete('/{id}', [ProductProfileController::class, 'destroy']);
+
 });
 
 
@@ -104,9 +118,9 @@ Route::group(['prefix' => 'Event'], function () {
 Route::group(['prefix' => 'planProduct'], function () {
     Route::get('/', [ProductController::class, 'index']);   // Fetch all products
     Route::post('/store', [ProductController::class, 'store']);  // Create a new product
+    Route::get('delep/{id}', [ProductController::class, 'destroy']);  // Delete a product
     Route::get('/{id}', [ProductController::class, 'show']);  // Get a single product
-    Route::put('/{id}', [ProductController::class, 'update']);  // Update a product
-    Route::delete('/{id}', [ProductController::class, 'destroy']);  // Delete a product
+      // Update a product
 });
 
 Route::group(['prefix' => 'pdf'], function () {

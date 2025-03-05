@@ -6,7 +6,7 @@ import { useMainContext } from '@/Context/MainContext';
 const Footer = () => {
 
     const [email, setEmail] = useState<any>(null);
-    const [content, setContent] = useState<any>(null);
+    const [content, setContent] = useState<any>("Subscriber");
     const [isLoader, setIsLoader] = useState(false);
     const MainContext = useMainContext();
     return (
@@ -23,13 +23,13 @@ const Footer = () => {
                     </p>
                     <p className="mt-4 text-lg font-semibold">admin@universalhpc.com</p>
                     <div className="flex space-x-4 mt-4">
-                        <a href="#" className="text-blue-600">
+                        <a href="https://www.facebook.com/share/1GapMjHwwH/?mibextid=wwXIfr" target='_blank' className="text-blue-600">
                             <FaFacebookSquare className='text-[2rem]'></FaFacebookSquare>
                         </a>
                         {/* <a href="#" className="text-red-600">
                            <FaYoutubeSquare className='text-[2rem]'/>
                         </a> */}
-                        <a href="#" className="text-pink-600">
+                        <a href="https://www.instagram.com/universalholisticpractitioners?igsh=b2F0cmt5NnVtOHRv&utm_source=qr" target='_blank' className="text-pink-600">
                             <FaInstagramSquare className='text-[2rem]' />
                         </a>
                     </div>
@@ -40,7 +40,7 @@ const Footer = () => {
                     <ul>
                         <li className='my-2'><Link to={"/"}>Home</Link></li>
                         <li className='my-2'><Link to={"/pages/about-uhpc"}>About</Link></li>
-                        <li className='my-2'><Link to={'/pages/uhpc-blogs'}>Blogs</Link> </li>
+                        {/* <li className='my-2'><Link to={'/pages/uhpc-blogs'}>Blogs</Link> </li> */}
                         <li className='my-2'><Link to={'/contact-us'}>Contact Us</Link> </li>
 
                     </ul>
@@ -56,11 +56,11 @@ const Footer = () => {
                             onChange={(e) => setEmail(e.target.value)}
                             className="w-full px-4 py-2 rounded-[5px] rounded-[5px] text-sm text-gray-700 border-none focus:ring-0 focus:outline-none"
                         />
-                        <textarea
+                        {/* <textarea
                             placeholder="Message"
                             onChange={(e) => setContent(e.target.value)}
                             className="w-full px-4 h-[10vh]  py-2 mt-2 rounded-[5px] rounded-[5px] text-sm text-gray-700 border-none focus:ring-0 focus:outline-none"
-                        />
+                        /> */}
                         <button onClick={async () => {
                             setIsLoader(true);
                             await MainContext?.subscribeToMail!({ email, content });

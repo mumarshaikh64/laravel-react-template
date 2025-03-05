@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { BaseApi } from '../../Context/MainContext';
 const AddStandards = () => {
@@ -10,6 +10,46 @@ const AddStandards = () => {
     const [name, setName] = useState("");
     const [shortDescription, setShortDescription] = useState("");
     const [image, setImages]: any = useState(null);
+    const { id } = useParams();
+
+    useEffect(() => {
+        if (id != "0") {
+
+        }
+    }, [id])
+
+
+    useEffect(() => {
+        if (id != "0") {
+            getData();
+        }
+    }, [id]);
+
+
+    const downloadPDF = async (url) => {
+        const response = await fetch(url);
+        const blob = await response.blob();
+        const file = new File([blob], "downloaded-file.pdf", { type: "application/pdf" });
+        // Set the file in state
+        console.log(file);
+        setImages(file);
+    };
+
+
+
+
+    const getData = async () => {
+        const res = await BaseApi.get(`/pdf/${id}`);
+        if (res.status == 200) {
+            console.log(res.data);
+            setName(res?.data?.name);
+            setShortDescription(res?.data?.short_description);
+            const url = window.Laravel?.asset_url;
+            await downloadPDF(url + "/" + res?.data?.pdf);
+        }
+    }
+
+
 
 
 
@@ -30,9 +70,6 @@ const AddStandards = () => {
             newErrors.value = 'Short Description is required';
             toast.error('Short Description is required');
         }
-
-
-
         // Return true if no errors
         return Object.keys(newErrors).length === 0;
     };
@@ -49,19 +86,36 @@ const AddStandards = () => {
         if (image) {
             formData.append('pdf', image);
         }
-        try {
-            const response = await BaseApi.post('pdf/store', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
-            console.log('Data submitted:', response.data);
-            if (response.status == 200) {
-                alert("Add Pdf Success");
-                window.location.replace("/admin/page/standards")
+        if (id == "0") {
+            try {
+                const response = await BaseApi.post('pdf/store', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                });
+                console.log('Data submitted:', response.data);
+                if (response.status == 200) {
+                    alert("Add Pdf Success");
+                    window.location.replace("/page/standards")
+                }
+            } catch (error) {
+                console.error('Error submitting data:', error.response.data);
             }
-        } catch (error) {
-            console.error('Error submitting data:', error.response.data);
+        } else {
+            try {
+                const response = await BaseApi.put(`pdf/${id}`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                });
+                console.log('Data submitted:', response.data);
+                if (response.status == 200) {
+                    alert("Update Pdf Success");
+                    window.location.replace("/page/standards")
+                }
+            } catch (error) {
+                console.error('Error submitting data:', error.response.data);
+            }
         }
 
     }
@@ -70,7 +124,7 @@ const AddStandards = () => {
             <div className='flex items-center '>
                 <button
                     onClick={() => {
-                        navigate('/admin/page/standards')
+                        navigate('/page/standards')
                     }} className='bg-[#4091ca] px-4 py-2 rounded font-[700] text-[#fff] shadow-md hover:bg-[#4091cade] outline-one'>Back</button>
                 <h2 className='text-[25px] mx-4 font-bold'>Add Standards </h2>
             </div>
@@ -91,6 +145,7 @@ const AddStandards = () => {
                                     setImages(e.target.files![0])
                                 }
                             }}
+                            accept="application/pdf"
                             type='file'
                             placeholder='Enter Name' className='w-full my-4 border-none bg-[#fff] shadow outline-none px-2 py-1 rounded' />
                     </div>
@@ -103,7 +158,7 @@ const AddStandards = () => {
                     </div>
                     <div className="mt-4 flex w-full justify-end">
                         <button
-                            onClick={() => navigate('/admin/page/standards')}
+                            onClick={() => navigate('/page/standards')}
                             className="px-5 py-2 mx-2 bg-[#d0d3d4] text-white rounded hover:bg-[#ecf0f1]"
                         >
                             Close

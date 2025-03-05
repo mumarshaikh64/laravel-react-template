@@ -15,6 +15,11 @@ use Inertia\Inertia;
 */
 // Define the admin routes
 // Route::prefix('admin')->group(function () {
+
+Route::get('generate', function (){
+  \Illuminate\Support\Facades\Artisan::call('storage:link');
+  echo 'ok';
+});
 Route::get('/admin{any}', function () {
   // dd("ddd");
   return view('admin');

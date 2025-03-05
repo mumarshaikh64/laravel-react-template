@@ -1,5 +1,5 @@
 // Dependencies
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, useLocation } from "react-router-dom";
 import Login from "./Auth/CustomLogin";
 import ContactUs from "./ContactUs/ContactUs";
 import CustomEditor from "./CustomEditor/CustomEditor";
@@ -15,6 +15,9 @@ import Standarde from "./Resources/Standarde";
 import ViewStandards from "./Resources/ViewStandards";
 import ApplayJoin from "./JoinIPHM/ApplayJoin";
 import Profile from "./profile/Profile";
+import TermsCondition from "./JoinIPHM/TermsCondition";
+import Beauty from "./JoinIPHM/beauty";
+import { useEffect } from "react";
 
 
 const routes = createBrowserRouter([
@@ -52,7 +55,7 @@ const routes = createBrowserRouter([
         element: <Holistic />
       },
       {
-        path: "/pages/view-holistic/:id",
+        path: "/pages/view-holistic/:id/:isBeauty",
         element: <ApplayJoin />
       },
       {
@@ -72,8 +75,16 @@ const routes = createBrowserRouter([
         element: <Blogs />
       },
       {
-        path:"/profile",
-        element:<Profile/>
+        path: "/profile",
+        element: <Profile />
+      },
+      {
+        path: "/termsCondition",
+        element: <TermsCondition />
+      },
+      {
+        path: "/pages/beauty",
+        element: <Beauty />
       },
       // {
       //   path: "/pages/uhpc-standards",
@@ -110,9 +121,15 @@ const routes = createBrowserRouter([
 
 const Home = () => {
   return (
-    <RouterProvider router={routes} />
+    
+     
+      <RouterProvider router={routes} />
+   
   )
 }
+
+
+
 
 // 66bc43 green
 // 4091ca blue

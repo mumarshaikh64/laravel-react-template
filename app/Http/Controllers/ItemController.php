@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\PdfItems;
+use Illuminate\Support\Facades\Storage;
+
 
 class ItemController extends Controller
 {
@@ -50,28 +52,39 @@ class ItemController extends Controller
     // Update an item
     public function update(Request $request, $id)
     {
+        // Validate input
+        $request->validate([
+            'name' => 'sometimes|string|max:255',
+            'short_description' => 'sometimes|string',
+            'pdf' => 'nullable|mimes:pdf|max:2048' // Optional PDF update
+        ]);
+    
+        // Find the existing record
         $item = PdfItems::find($id);
         if (!$item) {
-            return response()->json(['message' => 'Item not found'], 404);
+            return response()->json(['message' => 'PDF item not found'], 404);
         }
-
-        $request->validate([
-            'name' => 'sometimes|required|string|max:255',
-            'short_description' => 'sometimes|required|string',
-            'pdf' => 'nullable|mimes:pdf|max:2048'
-        ]);
-
+    
+        // Handle file upload if a new PDF is provided
         if ($request->hasFile('pdf')) {
+            // Delete old file if exists
             if ($item->pdf) {
                 Storage::disk('public')->delete($item->pdf);
             }
+            // Store new file
             $item->pdf = $request->file('pdf')->store('pdfs', 'public');
         }
-
-        $item->update($request->only(['name', 'short_description']));
-
-        return response()->json($item);
+    
+        // Update other fields
+        $item->update([
+            'name' => $request->name ?? $item->name,
+            'short_description' => $request->short_description ?? $item->short_description,
+            'pdf' => $item->pdf
+        ]);
+    
+        return response()->json($item, 200);
     }
+    
 
     // Delete an item
     public function destroy($id)

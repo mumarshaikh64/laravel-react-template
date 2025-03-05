@@ -16,7 +16,7 @@ const data = {
     { "text": "FIND A PRACTITIONER", "style": "bg-green-500", "to": "/pages/holistic" },
     { "text": "FIND A TRAINING PROVIDER", "style": "bg-green-500", "to": "/pages/holistic" },
     // { "text": "INSURANCE", "style": "bg-green-500" },
-    { "text": "JOIN UHPC BEAUTY", "style": "bg-blue-500",'to':"/pages/view-holistic/0" }
+    { "text": "JOIN UHPC BEAUTY", "style": "bg-blue-500",'to':"/pages/beauty" }
   ],
   "content": {
     "title": "Our Guarantee",
@@ -71,7 +71,7 @@ const MainHome = () => {
               </h2>
               <p className="text-gray-600 mb-2 pl-3">{data.content.description}</p>
               <p className="text-[#4091ca] font-bold mb-4 text-[18px] pl-3">Get UHPC certified today</p>
-              <Link to={"/user/auth"} className="border border-[#4091ca] text-[#4091ca] font-semibold py-2 px-6 rounded-full shadow  ml-3">
+              <Link to={'/pages/holistic'} className="border border-[#4091ca] text-[#4091ca] font-semibold py-2 px-6 rounded-full shadow  ml-3">
                 {data.content.ctaText}
               </Link>
             </div>
@@ -102,7 +102,7 @@ const MainHome = () => {
                 <li className='text-[16px] font-[600] mb-2'>• You join one of the largest professional the rapist communities in the world.</li>
               </ul>
             </div>
-            <Link to={"/user/auth"} className="bg-[#66bc43] text-[#111] font-semibold py-2 px-6 rounded-full shadow  ml-3">
+            <Link to={'/pages/holistic'} className="bg-[#66bc43] text-[#111] font-semibold py-2 px-6 rounded-full shadow  ml-3">
               {data.content.ctaText}
             </Link>
           </div>
@@ -153,7 +153,7 @@ const MainHome = () => {
           {/* <h4 className='text-center text-[1.9rem] font-[700] text-[#66bc43] '>WHAT OUR CLIENTS SAY</h4>
           <h3 className='text-[5rem]'>❛❜</h3> */}
           <p className='text-[20px] text-center mb-3'>We accept members worldwide. From Europe,to America,to Asia and beyond.</p>
-          <button onClick={()=>{navigate("/pages/view-holistic/0")}} className="bg-[#66bc43] mt-4 text-[#111] font-semibold py-2 px-6 rounded-full shadow  ml-3">
+          <button onClick={()=>{navigate("/pages/holistic")}} className="bg-[#66bc43] mt-4 text-[#111] font-semibold py-2 px-6 rounded-full shadow  ml-3">
             {"Apply Today"}
           </button>
         </div>

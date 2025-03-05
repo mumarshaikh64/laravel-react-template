@@ -19,6 +19,7 @@ return new class extends Migration
             $table->decimal('price', 10, 2);
             $table->text('short_description')->nullable();
             $table->json('list_text')->nullable();
+            $table->string("type")->nullable();
             $table->timestamps();
         });
     }

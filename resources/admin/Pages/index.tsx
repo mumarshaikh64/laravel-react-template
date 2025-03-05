@@ -26,7 +26,7 @@ import Contact from "./Contact/Contact";
 
 const routes = createBrowserRouter([
   {
-    path: "/admin",
+    path: "/",
     element: <MainLayout />,
     children: [
       {
@@ -54,7 +54,7 @@ const routes = createBrowserRouter([
         element: <Category />
       },
       {
-        path: "page/addProduct",
+        path: "page/addProduct/:id",
         element: <AddProduct />
       },
       {
@@ -78,7 +78,7 @@ const routes = createBrowserRouter([
         element: <Standards />
       },
       {
-        path: "page/addStandards",
+        path: "page/addStandards/:id",
         element: <AddStandards />
       },
       {
@@ -86,7 +86,7 @@ const routes = createBrowserRouter([
         element: <Holistic />
       },
       {
-        path: "page/addHolistic",
+        path: "page/addHolistic/:id",
         element: <AddHolistic />
       },
       {

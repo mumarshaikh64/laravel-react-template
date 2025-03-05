@@ -24,6 +24,7 @@ class ProductController extends Controller
                'price' => 'required|numeric',
                'short_description' => 'nullable|string',
                'list_text' => 'nullable|array',
+               'type'=> "nullable|string",
            ]);
    
            $product = Product::create($validated);
@@ -41,8 +42,10 @@ class ProductController extends Controller
        }
    
        // Update a product
-       public function update(Request $request, $id)
-       {
+       public function submitForm(Request $request)
+       { 
+           $id = $request->id;
+        //    dd($request->all());
            $product = Product::find($id);
            if (!$product) {
                return response()->json(['message' => 'Product not found'], 404);
@@ -55,6 +58,7 @@ class ProductController extends Controller
                'price' => 'sometimes|numeric',
                'short_description' => 'nullable|string',
                'list_text' => 'nullable|array',
+               'type'=> "nullable|string",
            ]);
    
            $product->update($validated);
@@ -64,6 +68,7 @@ class ProductController extends Controller
        // Delete a product
        public function destroy($id)
        {
+        return response()->json(['message' => 'Product not found'], 404);
            $product = Product::find($id);
            if (!$product) {
                return response()->json(['message' => 'Product not found'], 404);

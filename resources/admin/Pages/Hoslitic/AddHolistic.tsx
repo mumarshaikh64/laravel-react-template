@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { BaseApi } from '../../Context/MainContext';
 import { BiTrash } from 'react-icons/bi';
 const AddHolistic = () => {
-
+    const { id } = useParams();
     const navigate = useNavigate();
 
     const [name, setName] = useState("");
@@ -14,6 +14,39 @@ const AddHolistic = () => {
     const [deposit_to, setDepositTo] = useState("");
     const [shortDescription, setShortDescription] = useState("");
     const [price, setPrice] = useState("");
+    const [type, setType] = useState("membership");
+
+
+
+    useEffect(() => {
+        if (id != '0') {
+            getData();
+        }
+    }, [id])
+
+
+    const getData = async () => {
+        const res = await BaseApi.get(`/planProduct/${id}`);
+        if (res.status == 200 && res.data) {
+            setType(res.data?.type);
+            setName(res.data?.name);
+            setShortDescription(res.data?.short_description);
+            setDepositFrom(res.data?.deposit_from);
+            setDepositTo(res?.data?.deposit_to);
+            setPrice(res?.data?.price);
+            setListText(res?.data?.list_text.map(v => ({ li: v })));
+        } else {
+            setDepositFrom("");
+            setDepositTo("");
+            setName("");
+            setType("membership");
+            setShortDescription("");
+            setPrice("");
+            setListText(e => [...e, { li: "" }]);
+        }
+    }
+
+
     const [listText, setListText] = useState([
         { li: '' }
     ]);
@@ -60,24 +93,43 @@ const AddHolistic = () => {
         formData.append('name', name);
         formData.append('deposit_from', deposit_from);
         formData.append('deposit_to', deposit_to);
+        formData.append("type", type);
         formData.append('price', price);
         formData.append('short_description', shortDescription);
         listText.forEach((item, index) => {
             formData.append('list_text[]', item['li']); // This will add each `li` as a separate field
         });
-        try {
-            const response = await BaseApi.post('/planProduct/store', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
-            console.log('Data submitted:', response.data);
-            if (response.status == 200) {
-                alert("Add Holistic Success");
-                window.location.replace("/admin/page/holistic")
+        if (id != "0") {
+            formData.append("id", id!);
+            try {
+                const response = await BaseApi.post(`/productUpdate`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                });
+                console.log('Data submitted:', response.data);
+                if (response.status == 200) {
+                    alert("Add Holistic Success");
+                    window.location.replace("/page/holistic")
+                }
+            } catch (error) {
+                console.error('Error submitting data:', error.response.data);
             }
-        } catch (error) {
-            console.error('Error submitting data:', error.response.data);
+        } else {
+            try {
+                const response = await BaseApi.post('/planProduct/store', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                });
+                console.log('Data submitted:', response.data);
+                if (response.status == 200) {
+                    alert("Add Holistic Success");
+                    window.location.replace("/page/holistic")
+                }
+            } catch (error) {
+                console.error('Error submitting data:', error.response.data);
+            }
         }
 
     }
@@ -100,7 +152,7 @@ const AddHolistic = () => {
             <div className='flex items-center '>
                 <button
                     onClick={() => {
-                        navigate('/admin/page/holistic')
+                        navigate('/page/holistic')
                     }} className='bg-[#4091ca] px-4 py-2 rounded font-[700] text-[#fff] shadow-md hover:bg-[#4091cade] outline-one'>Back</button>
                 <h2 className='text-[25px] mx-4 font-bold'>Add Holistic </h2>
             </div>
@@ -129,7 +181,7 @@ const AddHolistic = () => {
                                 className='w-[47%] my-4 border-none bg-[#fff] shadow outline-none px-2 py-2 rounded' />
                         </div>
                     </div>
-                    <div className='md:w-[99.5%] mx-1 w-full'>
+                    <div className='md:w-[48%] mx-1 w-full'>
                         <label>Price</label>
                         <input
                             onChange={(e) => setPrice(e.target.value)}
@@ -137,6 +189,19 @@ const AddHolistic = () => {
                             type='number'
 
                             placeholder='Enter Price' className='w-full my-4 border-none bg-[#fff] shadow outline-none px-2 py-2 rounded' />
+                    </div>
+                    <div className='md:w-[48%] mx-1 w-full'>
+                        <label>Package Type</label>
+                        <select onChange={(e) => setType(e.target.value)} className='w-full my-4 border-none bg-[#fff] shadow outline-none px-2 py-2 rounded'>
+                            <option value={"membership"}>Membership</option>
+                            <option value={"beauty"}>Beauty</option>
+                        </select>
+                        {/* <input
+                            onChange={(e) => setPrice(e.target.value)}
+                            value={price}
+                            type='number'
+
+                            placeholder='Enter Price' className='w-full my-4 border-none bg-[#fff] shadow outline-none px-2 py-2 rounded' /> */}
                     </div>
                     <div className='md:w-[100%]  mx-1 w-full'>
                         <label>Short Description</label>
@@ -179,7 +244,7 @@ const AddHolistic = () => {
 
                     <div className="mt-4 flex w-full justify-end">
                         <button
-                            onClick={() => navigate('/admin/page/holistic')}
+                            onClick={() => navigate('/page/holistic')}
                             className="px-5 py-2 mx-2 bg-[#d0d3d4] text-white rounded hover:bg-[#ecf0f1]"
                         >
                             Close
