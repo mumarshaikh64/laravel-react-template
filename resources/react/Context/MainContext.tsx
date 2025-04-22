@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 const MainContext = createContext<MainContextTypes | null>(null);
 
 
-export const AllCountry =[
+export const AllCountry = [
     {
         "name": "Afghanistan",
         "code": "AF"
@@ -1038,7 +1038,7 @@ const MainContextProvider = ({ children }: any) => {
     const [allBlogs, setAllBlogs] = useState<any>(null);
     const [allPdf, setAllPdf] = useState<any>(null);
     const [allHolistic, setAllHolistic] = useState<any>(null);
-    
+
 
 
 

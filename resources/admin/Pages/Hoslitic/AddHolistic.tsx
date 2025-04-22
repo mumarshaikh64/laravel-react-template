@@ -15,7 +15,7 @@ const AddHolistic = () => {
     const [shortDescription, setShortDescription] = useState("");
     const [price, setPrice] = useState("");
     const [type, setType] = useState("membership");
-
+  const [discount, setDiscount] = useState("0");
 
 
     useEffect(() => {
@@ -35,6 +35,8 @@ const AddHolistic = () => {
             setDepositTo(res?.data?.deposit_to);
             setPrice(res?.data?.price);
             setListText(res?.data?.list_text.map(v => ({ li: v })));
+            setDiscount(res?.data?.discount);
+
         } else {
             setDepositFrom("");
             setDepositTo("");
@@ -43,6 +45,8 @@ const AddHolistic = () => {
             setShortDescription("");
             setPrice("");
             setListText(e => [...e, { li: "" }]);
+            setDiscount("0");
+
         }
     }
 
@@ -96,6 +100,7 @@ const AddHolistic = () => {
         formData.append("type", type);
         formData.append('price', price);
         formData.append('short_description', shortDescription);
+        formData.append("discount", discount);
         listText.forEach((item, index) => {
             formData.append('list_text[]', item['li']); // This will add each `li` as a separate field
         });
@@ -203,13 +208,20 @@ const AddHolistic = () => {
 
                             placeholder='Enter Price' className='w-full my-4 border-none bg-[#fff] shadow outline-none px-2 py-2 rounded' /> */}
                     </div>
-                    <div className='md:w-[100%]  mx-1 w-full'>
+                    <div className='md:w-[48%]  mx-1 w-full'>
                         <label>Short Description</label>
                         <textarea
                             onChange={(e) => setShortDescription(e.target.value)}
                             value={shortDescription}
                             placeholder='Enter Short Description' className='w-full my-4 border-none bg-[#fff] shadow outline-none px-2 py-2 rounded' />
                     </div>
+                    <div className='md:w-[48%] mx-1 mt-1 w-full'>
+                                            <label>Discount</label>
+                                            <input
+                                                onChange={(e) => setDiscount(e.target.value)}
+                                                value={discount!}
+                                                placeholder='Enter discount %' className='w-full my-4 border-none bg-[#fff] shadow outline-none px-2 py-2 rounded' />
+                                        </div>
                     <div className='w-full mt-2 mx-1 rounded-xl'>
                         <div className='flex py-4 justify-between'>
                             <label>List Text</label>

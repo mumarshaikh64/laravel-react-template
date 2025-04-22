@@ -94,7 +94,7 @@ const ContactUs = () => {
                             Please ensure you type in your full and correct email address. We are unable to respond otherwise. If you have not had a response within 48hrs please check your junk folder.
                         </p>
                         <p className='text-[#1f3831] py-3 mt-2'>
-                            <strong className='font-[800]'>IMPORTANT NOTICE FOR CURRENT MEMBERS</strong> - Ensure you include your <strong className='font-[800]'>UHPC</strong> unique ref number when contacting us or leaving a phone message in order for us to deal with your request more quickly and efficiently. Your UHPC number can be found on your certificate.
+                            <strong className='font-[800]'>IMPORTANT NOTICE FOR CURRENT MEMBERS</strong> - Ensure you include your <strong className='font-[800]'>UHPC</strong> unique ref number when contacting us  order for us to deal with your request more quickly and efficiently. Your UHPC number can be found on your certificate.
                         </p>
                         <p className='text-[#1f3831] py-3 mt-2'>Email: <a href='#' className='font-[800]'>admin@universalhpc.com</a></p>
                         {/* <p className='text-[#1f3831] py-3 mt-2'>Tel: +44 1706 838332 (10am - 2pm - Mon - Fri excluding Bank Holidays) - If leaving a voice message <strong>please tell us your UHPC number</strong> if you are a current member. We are not always able to return a phone call depending on the time zone, so we recommend that you also email us. </p> */}

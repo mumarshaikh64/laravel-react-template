@@ -24,7 +24,7 @@ Route::get('/admin{any}', function () {
   // dd("ddd");
   return view('admin');
 })->where('any', '.*');
-// });
+
 
 // Define the catch-all route for the user frontend
 Route::get('/{any}', function () {

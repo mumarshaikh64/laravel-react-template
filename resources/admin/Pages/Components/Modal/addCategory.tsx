@@ -5,6 +5,7 @@ import { BaseApi, useMainContext } from '../../../Context/MainContext';
 const AddCategory = ({ open, handleClose, data }) => {
     const [title, setTitle] = useState("");
     const [uri, setUri] = useState("");
+    const [type,setType] = useState('');
     const appContext = useMainContext();
     const [file, setFile] = useState<File | null>(null);
 
@@ -14,15 +15,17 @@ const AddCategory = ({ open, handleClose, data }) => {
     useEffect(() => {
         if (data) {
             setTitle(data?.title);
+            setType(data?.type);
             setUri(data?.uri);
         } else {
             setTitle('');
+            setType('');
             setUri('');
         }
     }, [data])
 
     const addCreateCategory = async () => {
-        if (title == "" || !file) {
+        if (title == "") {
             toast.error("Fill The Form");
         } else {
             try {
@@ -30,6 +33,7 @@ const AddCategory = ({ open, handleClose, data }) => {
                 formData.append("title", title);
                 formData.append("uri", uri);
                 formData.append("file", file!);
+                formData.append("type",type);
                 let res;
                 if (data) {
                     res = await BaseApi.post(`/category/update/${data?.id}`, formData, {
@@ -108,6 +112,15 @@ const AddCategory = ({ open, handleClose, data }) => {
                             <input
                                 value={uri}
                                 placeholder='Enter URI' className='w-full my-4 border-none bg-[#fff] shadow outline-none px-2 py-2 rounded' />
+
+
+                            <select value={type} onChange={(e)=>{setType(e.target.value)}} className='w-full my-4 border-none bg-[#fff] shadow outline-none px-2 py-2 rounded' >
+                                <label htmlFor="Category Type">Category Type</label>
+                                <option value={""}>Select type</option>
+                                <option value={"training provider"}>Training Provider</option>
+                                <option value={"practitioners"}>Practitioners</option>
+
+                            </select>
 
                             <div className="flex items-center justify-center w-full">
                                 <label

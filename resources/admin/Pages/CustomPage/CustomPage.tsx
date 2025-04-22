@@ -60,7 +60,7 @@ const CustomPage = () => {
                     <BiSearch className='text-[18px]' />
                 </div>
                 <button onClick={() => {
-                    window.location.href = ("/pages/editor/0");
+                    window.location.href = ("https://universalhpc.com/pages/editor/0");
                 }} className='bg-[#4091ca] px-4 py-2 rounded font-[700] text-[#fff] shadow-md hover:bg-[#4091cade] outline-one'>Add New</button>
             </div>
 
@@ -93,7 +93,7 @@ const CustomPage = () => {
                                                     <td scope="col" className="px-6 py-3 flex">
                                                         <BiEdit
                                                             onClick={() => {
-                                                                window.location.href = (`/pages/editor/${d?.id}`);
+                                                                window.location.href = (`https://universalhpc.com/pages/editor/${d?.id}`);
                                                             }}
                                                             cursor={'pointer'} className='text-[18px]' />
                                                         <BiTrash

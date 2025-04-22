@@ -23,6 +23,10 @@ const Category = () => {
       key: "title",
     },
     {
+      title: "Type",
+      key: "type",
+    },
+    {
       title: "Uri",
       key: "uri",
     },
@@ -94,6 +98,7 @@ const Category = () => {
                         return <tr key={index}>
                           <td scope="col" className="px-6 py-3">{d?.id}</td>
                           <td scope="col" className="px-6 py-3">{d?.title}</td>
+                          <td scope="col" className="px-6 py-3">{d?.type}</td>
                           <td scope="col" className="px-6 py-3">{d?.uri}</td>
                           <td scope="col" className="px-6 py-3">
                             <img style={{ width: 80, height: 80, borderRadius: 10 }} src={assetUrl + '/' + d?.file_path} />

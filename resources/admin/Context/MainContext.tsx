@@ -7,7 +7,7 @@ import axios from 'axios';
 const MainContext = createContext<MainContextType | null>(null);
 
 
-export const BaseUrl = "https://universalhpc.com/api"
+export const BaseUrl = "https://myadmin.universalhpc.com/api"
 // export const BaseUrl = "http://127.0.0.1:8000/api";
 export const BaseApi = axios.create({
     baseURL: BaseUrl

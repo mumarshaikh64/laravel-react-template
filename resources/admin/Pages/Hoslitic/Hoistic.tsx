@@ -28,6 +28,10 @@ const Holistic = () => {
             key: "price",
         },
         {
+            title: "Discount",
+            key: "discount",
+        },
+        {
             title: "Type",
             key: "type",
         },
@@ -99,6 +103,9 @@ const Holistic = () => {
                                                     </td>
                                                     <td scope="col" className="px-6 py-3">
                                                         {d?.price}
+                                                    </td>
+                                                    <td scope="col" className="px-6 py-3">
+                                                        {d?.discount}
                                                     </td>
                                                     <td scope="col" className="px-6 py-3">
                                                         {d?.type}

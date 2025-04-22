@@ -99,7 +99,7 @@ const MainHome = () => {
                 <li className='text-[16px] font-[600] mb-2'>• Dedicated UHPC profile page,helping you reach 1000s of potential clients.</li>
                 {/* <li className='text-[16px] font-[600] mb-2'>• Low cost insurance discounts to cover your practice at an affordable rate.</li> */}
                 <li className='text-[16px] font-[600] mb-2'>• Free monthly advertising to promote your services to even more potential clients.</li>
-                <li className='text-[16px] font-[600] mb-2'>• You join one of the largest professional the rapist communities in the world.</li>
+                <li className='text-[16px] font-[600] mb-2'>• You join one of the largest professional Therapist communities in the world.</li>
               </ul>
             </div>
             <Link to={'/pages/holistic'} className="bg-[#66bc43] text-[#111] font-semibold py-2 px-6 rounded-full shadow  ml-3">
@@ -115,7 +115,7 @@ const MainHome = () => {
           <h4 className='text-center text-[1.5rem] font-[700] text-[#66bc43] '>Get UHPC certified and receive exclusive use of our Trustmark recognised internationally by clients for good and proper practice.
             Benefits also include:</h4>
           <ul className='mt-4'>
-            <li className='flex items-center my-4 text-[#111] font-[700]'><FaCircleCheck className='text-[#66bc43] mr-2 text-[1.5rem]' /> Apply to bean UHPC member using our straight forward on line application form</li>
+            <li className='flex items-center my-4 text-[#111] font-[700]'><FaCircleCheck className='text-[#66bc43] mr-2 text-[1.5rem]' /> Apply to be an UHPC member using our straight forward on line application form</li>
             <li className='flex items-center my-4 text-[#111] font-[700]'><FaCircleCheck className='text-[#66bc43] mr-2 text-[1.5rem]' /> The UHPC Board will review your application and followup with any extra questions</li>
             <li className='flex items-center my-4 text-[#111] font-[700]'><FaCircleCheck className='text-[#66bc43] mr-2 text-[1.5rem]' /> If your application meets the board's standards-congratulations,you are UHPC certified</li>
           </ul>

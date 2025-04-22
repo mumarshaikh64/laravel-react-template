@@ -13,6 +13,7 @@ class Category extends Model
         'title',
         'uri',
         'file_path',
+        'type',
         'status'
     ];
 

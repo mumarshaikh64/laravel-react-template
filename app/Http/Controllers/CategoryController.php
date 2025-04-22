@@ -26,7 +26,8 @@ class CategoryController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
             'uri' => 'required|string|max:255',
-            'file' => 'nullable|file|mimes:jpg,png,gif,svg|max:2048',
+            "type"=>'required|string|max:255',
+            // 'file' => 'nullable|file|mimes:jpg,png,gif,svg|max:2048',
         ]);
     
         // Return validation errors if any
@@ -39,8 +40,7 @@ class CategoryController extends Controller
         }
     
         try {
-            $filePath = null;
-    
+            $filePath = 'uploads/images.jpeg'; // Make sure this file exists in your storage
             // Handle file upload
             if ($request->hasFile('file')) {
                 $filePath = $request->file('file')->store('uploads', 'public');
@@ -50,6 +50,7 @@ class CategoryController extends Controller
             $item = Category::create([
                 'title' => $request->title,
                 'uri' => $request->uri,
+                'type'=>$request->type,
                 'file_path' => $filePath,
                 'status' => $request->status ?? true,
             ]);
@@ -128,6 +129,7 @@ class CategoryController extends Controller
         $category->update([
             'title' => $request->title,
             'uri' => $request->uri,
+            'type'=>$request->type,
             'status' => $request->status ?? true,
         ]);
 

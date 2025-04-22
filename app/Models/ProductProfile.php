@@ -22,7 +22,8 @@ class ProductProfile extends Model
         'categoryId',
         'social_links',
         'tags',
-        'course_name'
+        'course_name',
+        'logo'
     ];
 
     // Optionally, you can cast attributes like social_links to array

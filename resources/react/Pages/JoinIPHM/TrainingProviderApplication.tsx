@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { loadStripe } from "@stripe/stripe-js";
-import { Elements, CardElement, useStripe, useElements, CardNumberElement } from "@stripe/react-stripe-js";
+import { Elements, CardElement, useStripe, useElements, CardNumberElement, CardExpiryElement, CardCvcElement } from "@stripe/react-stripe-js";
 import { AllCountry, BaseApi, useMainContext } from '@/Context/MainContext';
 import { toast } from 'react-toastify';
 import { Link, useParams } from 'react-router-dom';
@@ -25,6 +25,7 @@ const TrainingProviderApplication = () => {
     country: '',
     phoneNumber: '',
     email: '',
+    gender: '',
     emailConfirm: '',
     usernameType: 'contact_email',
     loginEmail: '',
@@ -38,7 +39,7 @@ const TrainingProviderApplication = () => {
     youtube: '',
     tiktok: '',
     telegram: '',
-    // insured: '',
+    insured: '',
     selectRole: '',
     courseTitles: '',
     courseProvision: [''],
@@ -55,10 +56,12 @@ const TrainingProviderApplication = () => {
     photo: null,
     comments: '',
     keywords: '',
-    // sanctions: '',
+    sanctions: '',
     acceptTerms: false,
     tags: [],
   });
+
+  const [discount, setDiscount] = useState("0");
 
 
   const validateForm = (formData: any) => {
@@ -72,16 +75,31 @@ const TrainingProviderApplication = () => {
 
     // Required Fields Validation
     const requiredFields = [
-      "firstName", "lastName", "businessName", "address", "postalCode",
+      "firstName", "lastName", "address", "postalCode",
       "country", "phoneNumber", "email",
-      "website", "selectRole", "payment",
+      "selectRole", "payment", 'dob', 'gender'
     ];
 
-    requiredFields.forEach(field => {
-      if (!formData[field]) {
-        errors[field] = `${field} is required`;
-      }
-    });
+    const brequiredFields = [
+      "firstName", "lastName", "address", "postalCode",
+      "country", "phoneNumber", "email",
+      "courseNname", "payment", 'dob', 'gender'
+    ];
+
+    if (isBeauty == "1") {
+      brequiredFields.forEach(field => {
+        if (!formData[field]) {
+          errors[field] = `${field} is required`;
+        }
+      });
+    } else {
+      requiredFields.forEach(field => {
+        if (!formData[field]) {
+          errors[field] = `${field} is required`;
+        }
+      });
+    }
+
 
     // Email validation
     if (formData.email && !isValidEmail(formData.email)) {
@@ -93,14 +111,14 @@ const TrainingProviderApplication = () => {
     // }
 
     // Phone number validation
-    if (formData.phoneNumber && !isValidPhone(formData.phoneNumber)) {
+    if (formData.phoneNumber == "") {
       errors.phoneNumber = "Invalid phone number";
     }
 
     // Website validation (basic)
-    if (formData.website && !/^https?:\/\/\S+$/.test(formData.website)) {
-      errors.website = "Invalid website URL";
-    }
+    // if (formData.website && !/^https?:\/\/\S+$/.test(formData.website)) {
+    //   errors.website = "Invalid website URL";
+    // }
 
     // Ensure at least one social media link is provided
     // const socialFields = ["facebookPage", "twitter", "linkedin", "instagram", "pinterest", "youtube", "tiktok", "telegram"];
@@ -157,7 +175,11 @@ const TrainingProviderApplication = () => {
       return;
     }
     const formDataInstance = convertToFormData(formData);
-    handleSubmitPayment(formDataInstance)
+    if (isModalOpen) {
+      handleSubmitPayment(formDataInstance)
+    } else {
+      console.log("ddd");
+    }
   };
 
 
@@ -188,6 +210,7 @@ const TrainingProviderApplication = () => {
         const response = await BaseApi.post(`/applayForm`, formDataInstance);
         if (response.status == 201) {
           toast.success("Subscription Success!");
+          window.location.reload();
         }
       } catch (error: any) {
         if (isAxiosError(error)) {
@@ -229,6 +252,8 @@ const TrainingProviderApplication = () => {
 
   const setPriceData = (d: any, to: any) => {
     let pr = parseFloat(d);
+
+    const discountedPrice = pr - (pr * parseInt(discount));
     if (formData?.payment == "Monthly") {
       setPrice(to);
     } else {
@@ -368,7 +393,9 @@ const TrainingProviderApplication = () => {
                 </div>
                 <div style={{ width: "49%" }} className="Inputfield Inputfield_country InputfieldPage InputfieldStateRequired InputfieldColumnWidth">
                   <label htmlFor="country">Gender</label>
-                  <GenderSelection />
+                  <GenderSelection
+                    onChange={(g: any) => setFormData({ ...formData, gender: g })}
+                  />
                 </div>
               </div>
               <div className="Inputfield Inputfield_phone_number InputfieldText InputfieldColumnWidth">
@@ -506,11 +533,11 @@ const TrainingProviderApplication = () => {
                   {
                     ['Training Provider', 'Therapist']?.map((p, i) => {
 
-                      if (isBeauty == "0") {
-                        // if (p.type === "membership") {
-                        return <option key={i} value={p}>{p}</option>
-                        // }
-                      }
+                      // if (isBeauty == "0") {
+                      // if (p.type === "membership") {
+                      return <option key={i} value={p}>{p}</option>
+                      // }
+                      // }
                     })
                   }
                 </select>
@@ -628,7 +655,7 @@ const TrainingProviderApplication = () => {
                         <label>
                           <input
                             type="radio"
-                            name="sanctions"
+                            name="insured"
                             style={{ marginTop: 4 }}
                             value={option}
                             // checked={sanctionStatus === option}
@@ -650,6 +677,7 @@ const TrainingProviderApplication = () => {
                   if (e.target.value != "") {
                     setPriceData(e.currentTarget.selectedOptions.item(0)?.dataset['price'], e.currentTarget.selectedOptions.item(0)?.dataset['to']);
                     setFormData({ ...formData, courseNname: e.target.value });
+                    setDiscount(e.currentTarget.selectedOptions.item(0)?.dataset['discount']!);
 
                   }
                 }} name="" id="">
@@ -658,11 +686,11 @@ const TrainingProviderApplication = () => {
                     MainContext?.allHolistic?.map((p, i) => {
                       if (isBeauty == "0") {
                         if (p.type === "membership") {
-                          return <option data-to={p?.deposit_from} key={i} data-price={p?.price} value={p?.name}>{p?.name}</option>
+                          return <option data-to={p?.deposit_from} data-discount={p?.discount} key={i} data-price={p?.price} value={p?.name}>{p?.name}</option>
                         }
                       } else if (isBeauty == "1") {
                         if (p.type === "beauty") {
-                          return <option data-to={p?.deposit_from} key={i} data-price={p?.price} value={p?.name}>{p?.name}</option>
+                          return <option data-to={p?.deposit_from} data-discount={p?.discount} key={i} data-price={p?.price} value={p?.name}>{p?.name}</option>
                         }
                       }
                     })
@@ -833,33 +861,88 @@ const TrainingProviderApplication = () => {
               </div>
             </div>
           </fieldset>
-          <fieldset className="Inputfield Inputfield_membership_information InputfieldFieldset InputfieldColumnWidthFirst">
+          {/* <fieldset className="Inputfield Inputfield_membership_information InputfieldFieldset InputfieldColumnWidthFirst">
             <legend>Payment Info</legend>
 
             <div style={{ paddingBlock: 20 }}>
-              {/* <CardNumberElement /> */}
-              <CardElement onChange={(d) => {
+              <CardElement
+              
+              onChange={(d) => {
                 console.log(d);
+                 
               }} options={{ hidePostalCode: true }} />
             </div>
-            {/* </Elements> */}
-          </fieldset>
+          </fieldset> */}
           <div className="Inputfield Inputfield_trainingproviderapplication_submit InputfieldSubmit InputfieldColumnWidthFirst">
             <div className="InputfieldContent">
-              <button onClick={() => {
-                // const errors = validateForm(formData);
-                // if (Object.keys(errors).length > 0) {
-                //   alert("Please All Required Fields");
-                // } else {
-                setModalOpen(true);
-                // }
+              <button type='button' onClick={() => {
+                const errors = validateForm(formData);
+                console.log(errors, Object.values(errors).length);
+                if (Object.values(errors).length > 0) {
+                  // if(errors.email!=n){
+                  //   alert("Please Enter Valid Email");
+                  // }else{
+                  // alert("Please All Required Fields");
+                  // }
+                  Object.values(errors).forEach((err: any) => {
+                    toast.error(err); // Show each error as a toast
+                  });
+                } else {
+                  setModalOpen(true);
+                }
 
-              }} name="trainingproviderapplication_submit" value="Submit">Submit</button>
+              }} >Submit</button>
             </div>
           </div>
 
           <CustomModal isOpen={isModalOpen} onClose={() => setModalOpen(false)} title="Confirmation">
-            <p>{formData?.payment == "Monthly" ? `Are you sure you want to proceed with the monthly ${price} subscription` : `Are you sure you want to proceed with the yearly ${price} subscription?`}</p>
+            <div style={{ width: "30rem" }}>
+              <div className="Inputfield Inputfield_case_studies_why InputfieldText InputfieldStateRequired InputfieldColumnWidthFirst">
+                <input
+                  id="cardholdername"
+                  placeholder='Card Holder Name'
+                  name="cardholdername"
+                  type="text"
+                  value={formData.caseStudiesWhy}
+                  onChange={handleChange}
+                />
+              </div>
+              <CardNumberElement />
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBlock: 10 }} >
+                <div style={{ width: '48%' }}>
+                  <CardExpiryElement />
+                </div>
+                <div style={{ width: '48%' }}>
+                  <CardCvcElement />
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: "space-between" }}>
+                <p>Subscription Type:</p>
+                <p>{formData.payment}</p>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: "space-between" }}>
+                <p>Course Name:</p>
+                <p>{formData?.courseNname}</p>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: "space-between" }}>
+                <p>Sub Total:</p>
+                <p>{price}</p>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: "space-between" }}>
+                <p>Discount:</p>
+                <p>{discount}%</p>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: "space-between" }}>
+                <p>Tax:</p>
+                <p>0%</p>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: "space-between" }}>
+                <p>Total:</p>
+                <p>{price - ((price * parseInt(discount)) / 100)}</p>
+              </div>
+            </div>
+            {/* <p>{formData?.payment == "Monthly" ? `Are you sure you want to proceed with the monthly ${price} subscription` : `Are you sure you want to proceed with the yearly ${price} subscription?`}</p> */}
           </CustomModal>
         </form>
       </div>
@@ -871,7 +954,7 @@ const TrainingProviderApplication = () => {
 
 
 
-const GenderSelection = ({ onChange }: any) => {
+const GenderSelection = ({ onChange }: { onChange: any }) => {
   const [selectedGender, setSelectedGender] = useState("");
 
   const handleChange = (event: any) => {
@@ -882,7 +965,7 @@ const GenderSelection = ({ onChange }: any) => {
   return (
     <div className="inputfield-content">
       <ul className="InputfieldRadiosFloated pw-clearfix">
-        {["Male", "Female", "Other/Not Specified"].map((gender) => (
+        {["Male", "Female"].map((gender) => (
           <li key={gender}>
             <label>
               <input

@@ -21,7 +21,7 @@ const CustomModal = ({ isOpen, onClose, title, children,onSubmit }:any) => {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50">
-      <div className="bg-white p-6 rounded-2xl shadow-lg w-96">
+      <div className="bg-white p-6 rounded-2xl shadow-lg w-100">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold">{title}</h2>
           <button style={{background:"#fff",color:"#111",border:"none"}} onClick={onClose} className="text-gray-500 hover:text-gray-800 text-xl">

@@ -12,7 +12,7 @@ class ProductProfileController extends Controller
     public function index()
     {
         $item = ProductProfile::with('category')->get();
-        return response()->json($item,200);
+        return response()->json($item, 200);
     }
 
     /**
@@ -26,14 +26,20 @@ class ProductProfileController extends Controller
             'email' => 'required|email',
             'number' => 'required|string|max:20',
             'level' => 'required|string|max:50',
-            'web_link' => 'required|url',
+            // 'web_link' => 'required|url',
             'address' => 'required|string|max:255',
             'about' => 'required|string',
-            'social_links' => 'nullable|array',
-            'categoryId'=>'required|string',
+            // 'social_links' => 'nullable|array',
+            'categoryId' => 'required|string',
             // "course_name" => 'required|string'
         ]);
 
+
+        $logoPath = null;
+        if ($request->hasFile('logo')) {
+            $logoPath = $request->file('logo')->store('logos', 'public'); // Store in storage/app/public/logos
+        }
+        dd($request->file('logo'));
         $item = ProductProfile::create([
             'name' => $request->name,
             'destination' => $request->destination,
@@ -44,39 +50,43 @@ class ProductProfileController extends Controller
             'address' => $request->address,
             'about' => $request->about,
             "categoryId" => $request->categoryId,
-            'social_links' => json_encode($request->social_links), 
+            'social_links' => json_encode($request->social_links),
             // "course_name" => $request->course_name,
-            "tags" => json_encode($request->tags)
+            "tags" => json_encode($request->tags),
+            'logo' => $logoPath, // Store path in DB
         ]);
 
         return response()->json($item, 200);
     }
 
-    public function webProductSearch($value){
+    public function webProductSearch($value)
+    {
         $query = ProductProfile::with('category')
-        ->where('name', 'LIKE', "%{$value}%")
-        ->orWhere('destination', 'LIKE', "%{$value}%")
-        ->orWhere('email', 'LIKE', "%{$value}%")
-        ->orWhere('number', 'LIKE', "%{$value}%")
-        ->orWhere('level', 'LIKE', "%{$value}%")
-        ->orWhere('web_link', 'LIKE', "%{$value}%")
-        ->orWhere('address', 'LIKE', "%{$value}%");
+            ->where('name', 'LIKE', "%{$value}%")
+            ->orWhere('destination', 'LIKE', "%{$value}%")
+            ->orWhere('email', 'LIKE', "%{$value}%")
+            ->orWhere('number', 'LIKE', "%{$value}%")
+            ->orWhere('level', 'LIKE', "%{$value}%")
+            ->orWhere('web_link', 'LIKE', "%{$value}%")
+            ->orWhere('address', 'LIKE', "%{$value}%");
         $items = $query->get(); // Fetch the results
-        return response()->json($items,200);
+        return response()->json($items, 200);
     }
 
-    
-    public function webProduct($id){
-      if($id=="all"){
-        $item = ProductProfile::with('category')->get();
-        return response()->json($item,200);
-      }else{
-        $item = ProductProfile::Where("categoryId",$id)->with('category')->get();
-        return response()->json($item,200);
-      }
+
+    public function webProduct($id)
+    {
+        if ($id == "all") {
+            $item = ProductProfile::with('category')->get();
+            return response()->json($item, 200);
+        } else {
+            $item = ProductProfile::Where("categoryId", $id)->with('category')->get();
+            return response()->json($item, 200);
+        }
     }
 
-    public function getById($id){
+    public function getById($id)
+    {
         $product = ProductProfile::find($id);
         if (!$product) {
             return response()->json(['message' => 'Product not found'], 404);
@@ -89,7 +99,7 @@ class ProductProfileController extends Controller
      */
     public function show(string $id)
     {
-        
+
     }
 
     /**
@@ -110,14 +120,14 @@ class ProductProfileController extends Controller
             'categoryId' => 'sometimes|string',
             // "course_name" => 'sometimes|string'
         ]);
-    
+
         // Find the product by ID
         $item = ProductProfile::find($id);
-    
+
         if (!$item) {
             return response()->json(['message' => 'Product not found'], 404);
         }
-    
+
         // Update fields dynamically
         $item->update([
             'name' => $request->name ?? $item->name,
@@ -130,10 +140,10 @@ class ProductProfileController extends Controller
             'about' => $request->about ?? $item->about,
             'categoryId' => $request->categoryId ?? $item->categoryId,
             'social_links' => $request->social_links ? json_encode($request->social_links) : $item->social_links,
-            "tags" => $request->tags? json_encode($request->tags) : $item->tags,
+            "tags" => $request->tags ? json_encode($request->tags) : $item->tags,
             // "course_name" => $request->course_name ?? $item->course_name
         ]);
-    
+
         return response()->json($item, 200);
     }
 
@@ -144,14 +154,14 @@ class ProductProfileController extends Controller
     {
         $item = ProductProfile::find($id);
 
-    // Check if the product exists
-    if (!$item) {
-        return response()->json(['message' => 'Product not found'], 404);
-    }
+        // Check if the product exists
+        if (!$item) {
+            return response()->json(['message' => 'Product not found'], 404);
+        }
 
-    // Delete the product
-    $item->delete();
+        // Delete the product
+        $item->delete();
 
-    return response()->json(['message' => 'Product deleted successfully'], 200);
+        return response()->json(['message' => 'Product deleted successfully'], 200);
     }
 }

@@ -7,7 +7,15 @@ import LOGO from '../../assets/images/logo-2.png'
 import { BaseApi, useMainContext } from '@/Context/MainContext'
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaYoutube, FaYoutubeSquare } from 'react-icons/fa';
 import { Link } from 'react-router-dom'
+function stripHtml(html: any) {
+  if (!html) return "";
+  let doc = new DOMParser().parseFromString(html, "text/html");
+  return doc.body.textContent || "";
+}
 
+const formatText = (text: any, lineLength = 30) => {
+  return text.replace(new RegExp(`(.{${lineLength}})`, "g"), "$1</br>");
+};
 const DirectoryTow = () => {
   const mainContext = useMainContext();
   const [allProducts, setAllProducts] = useState([]);
@@ -48,6 +56,7 @@ const DirectoryTow = () => {
       }
     }
   }
+
   return (
     <div className='main-box mt-[5.6rem]  '>
       <div className={`hero-section   flex items-center`} style={{ backgroundImage: `url(${BgBanner})`, backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundSize: "100% 100%" }}>
@@ -123,9 +132,9 @@ const DirectoryTow = () => {
           }}>
             {
               mainContext?.allCategories == null ? <p>Please Wait...</p> : [
-                ...mainContext?.allCategories
+                ...mainContext?.allCategories.filter(v => v.type == "training provider")
               ]?.map((v, i) => {
-                return <div key={i} onClick={() => { onGetAllProduct(v?.id) }} className="category bg-cover bg-center mx-2 rounded overflow-hidden shadow-xl my-2" style={{ backgroundImage: `url(${assetUrl}/${v.file_path})`, position: 'relative' }}>
+                return <div key={i} onClick={() => { onGetAllProduct(v?.id) }} className="category bg-cover bg-center mx-2 rounded overflow-hidden shadow-xl my-2" style={{ backgroundImage: `url(${assetUrl}/${v.file_path})`, position: 'relative',backgroundRepeat:"no-repeat",backgroundSize:"100% 100%", }}>
                   <a id="holistic-spiritual" href='javascript:void(0)' className="text-white   absolute top-0 left-0 text-center w-full text-[14px] py-2 bg-[#4091ca]">
                     <span>{v.title}</span>
                   </a>
@@ -193,7 +202,7 @@ const ProductGrid = ({ allProducts ,socialIcons}: { allProducts: any[],socialIco
 
             {/* Avatar */}
             <div className="avatar px-1 transform relative">
-                    <img className="inline border-[3px] w-[8rem]  border-solid border-white rounded-full shadow-lg bg-white" src={LOGO} alt="" loading="lazy" />
+                    <img className="inline border-[3px] w-[8rem]  border-solid border-white rounded-full shadow-lg bg-white" src={"https://myadmin.universalhpc.com/storage/" + d?.logo} alt="" loading="lazy" />
                  
                   </div>
 
@@ -260,7 +269,13 @@ const ProductGrid = ({ allProducts ,socialIcons}: { allProducts: any[],socialIco
               <p className="text-accent2 mb-0 mt-8 uppercase font-semibold">
                 ABOUT:
               </p>
-              <p className="pb-4 text-neutral-700">{d?.about}</p>
+              <div className=" p-2 rounded-lg  text-neutral-700" style={{ whiteSpace: "pre-line" }}>
+                {/* <div dangerouslySetInnerHTML={{ __html: d?.about?.replace(/\n/g, "<br>") }} /> */}
+                {/* <p>{stripHtml(d?.about)?.replace(/\n/g, "<br>")}</p> */}
+                <div dangerouslySetInnerHTML={{ __html: formatText(stripHtml(d?.about))?.replace(/\n/g, "<br>")}} />
+                {/* {formatText(stripHtml(d?.about))?.replace(/\n/g, "<br>")} */}
+              </div>
+              {/* <p className="pb-4 text-neutral-700">{d?.about}</p> */}
             </div>
 
             {/* Social Media Links */}

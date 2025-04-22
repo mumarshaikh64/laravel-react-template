@@ -42,9 +42,12 @@ const AddProduct = () => {
             setDestinasion(res?.data?.destination);
             setCategoryId(res?.data?.categoryId);
             setLevel(res?.data?.level);
-            setWebLink(res?.data?.web_link);
-            const social_links = JSON.parse(res?.data?.social_links);
+            setWebLink(res?.data?.web_link ?? "");
+            const social_links = res?.data?.social_links == null || res?.data?.social_links == "null" ? [] : JSON.parse(res?.data?.social_links);
+            console.log(social_links);
             setSocialLinks(social_links);
+            const tag = res?.data?.tags == "null" ? [] : JSON.parse(res?.data?.tags);
+            setTags(tag);
             setValue(res?.data?.about);
 
         }
@@ -64,11 +67,14 @@ const AddProduct = () => {
     const [webLink, setWebLink] = useState("");
     const [address, setAddres] = useState("");
     const [course, setCourse] = useState("");
+    const [type, setType] = useState('');
+    const [logo, setLogo] = useState<any>(null);
 
     const [categoryId, setCategoryId] = useState("");
     const [tags, setTags]: any = useState([]);
 
     const mainContext = useMainContext();
+  
 
 
     // Handler to update the social platform fields
@@ -126,14 +132,14 @@ const AddProduct = () => {
             errors.level = 'Level is required';
             toast.error("Level is required")
         }
-        if (!webLink) {
-            errors.webLink = 'Web Link is required';
-            toast.error("Web Link is required")
-        }
-        else if (!/^https?:\/\/.+/.test(webLink)) {
-            errors.webLink = 'Web Link must be a valid URL';
-            toast.error("Web Link must be a valid URL")
-        }
+        // if (!webLink) {
+        //     errors.webLink = 'Web Link is required';
+        //     toast.error("Web Link is required")
+        // }
+        // else if (!/^https?:\/\/.+/.test(webLink)) {
+        //     errors.webLink = 'Web Link must be a valid URL';
+        //     toast.error("Web Link must be a valid URL")
+        // }
         if (!address) {
             errors.address = 'Address is required';
             toast.error('Address is required');
@@ -148,20 +154,20 @@ const AddProduct = () => {
         }
 
         // Validate social links if more than one
-        socialLinks.forEach((link, index) => {
-            if (!link.platformName) {
-                errors[`socialLinks[${index}].platformName`] = 'Platform name is required';
-                toast.error('Platform name is required');
-            }
-            if (!link.platformLink) {
-                errors[`socialLinks[${index}].platformLink`] = 'Platform link is required';
-                toast.error('Platform link is required');
-            }
-            else if (!/^https?:\/\/.+/.test(link.platformLink)) {
-                errors[`socialLinks[${index}].platformLink`] = 'Platform link must be a valid URL';
-                toast.error('Platform link must be a valid URL');
-            }
-        });
+        // socialLinks.forEach((link, index) => {
+        //     if (!link.platformName) {
+        //         errors[`socialLinks[${index}].platformName`] = 'Platform name is required';
+        //         toast.error('Platform name is required');
+        //     }
+        //     if (!link.platformLink) {
+        //         errors[`socialLinks[${index}].platformLink`] = 'Platform link is required';
+        //         toast.error('Platform link is required');
+        //     }
+        //     else if (!/^https?:\/\/.+/.test(link.platformLink)) {
+        //         errors[`socialLinks[${index}].platformLink`] = 'Platform link must be a valid URL';
+        //         toast.error('Platform link must be a valid URL');
+        //     }
+        // });
 
         return Object.keys(errors).length === 0;
     };
@@ -180,20 +186,56 @@ const AddProduct = () => {
                 if (!validate()) {
                     return;
                 }
-                const response = await BaseApi.post('/product/store', {
-                    name,
-                    destination,
-                    email,
-                    number,
-                    level,
-                    web_link: webLink,
-                    address,
-                    about: value,
-                    categoryId: categoryId,
-                    social_links: socialLinks,
-                    tags: tags,
-                    course_name: course
 
+
+                const formData = new FormData();
+                formData.append("name", name);
+                formData.append("destination", destination);
+                formData.append("email", email);
+                formData.append("number", number);
+                formData.append("level", level);
+                formData.append("web_link", webLink);
+                formData.append("address", address);
+                formData.append("about", value);
+                formData.append("categoryId", categoryId);
+                
+                // formData.append("social_links", JSON.stringify(socialLinks)); // Convert array to string if needed
+                // formData.append("tags", JSON.stringify(tags)); // Convert array to string if needed
+                formData.append("course_name", course);
+                if (socialLinks && socialLinks.length > 0) {
+                    formData.append("social_links", JSON.stringify(socialLinks));
+                }
+
+                if (tags && tags.length > 0) {
+                    formData.append("tags", JSON.stringify(tags));
+                }
+
+                // Ensure 'logo' is a File object
+                if (logo instanceof File) {
+                    formData.append("logo", logo);
+                } else {
+                    console.warn("Logo is not a valid file object");
+                }
+                // {
+                //     name,
+                //     destination,
+                //     email,
+                //     number,
+                //     level,
+                //     web_link: webLink,
+                //     address,
+                //     about: value,
+                //     categoryId: categoryId,
+                //     social_links: socialLinks,
+                //     tags: tags,
+                //     course_name: course,
+                //     logo: logo
+
+                // }
+                const response = await BaseApi.post('/product/store', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
                 });
                 if (response.status == 200) {
                     alert("Add Product Profile Success");
@@ -208,20 +250,40 @@ const AddProduct = () => {
                 if (!validate()) {
                     return;
                 }
-                const response = await BaseApi.put(`/product/${id}`, {
-                    name,
-                    destination,
-                    email,
-                    number,
-                    level,
-                    web_link: webLink,
-                    address,
-                    about: value,
-                    categoryId: categoryId,
-                    social_links: socialLinks,
-                    tags: tags,
-                    course_name: course
 
+                const formData = new FormData();
+                formData.append("name", name);
+                formData.append("destination", destination);
+                formData.append("email", email);
+                formData.append("number", number);
+                formData.append("level", level);
+                formData.append("web_link", webLink);
+                formData.append("address", address);
+                formData.append("about", value);
+                formData.append("categoryId", categoryId);
+               
+                // formData.append("social_links", JSON.stringify(socialLinks)); // Convert array to string if needed
+                // formData.append("tags", JSON.stringify(tags)); // Convert array to string if needed
+                formData.append("course_name", course);
+                if (socialLinks && socialLinks.length > 0) {
+                    formData.append("social_links", JSON.stringify(socialLinks));
+                }
+
+                if (tags && tags.length > 0) {
+                    formData.append("tags", JSON.stringify(tags));
+                }
+
+                // Ensure 'logo' is a File object
+                if (logo instanceof File) {
+                    formData.append("logo", logo);
+                } else {
+                    console.warn("Logo is not a valid file object");
+                }
+                formData.append("_method", "PUT");
+                const response = await BaseApi.post(`/product/${id}`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
                 });
                 if (response.status == 200) {
                     alert("Add Product Profile Success");
@@ -320,15 +382,27 @@ const AddProduct = () => {
                             value={webLink!}
                             placeholder='Enter Website link' className='w-full my-4 border-none bg-[#fff] shadow outline-none px-2 py-2 rounded' />
                     </div>
-                    <div className='md:w-[100%] mx-1 w-full'>
+                    <div className='md:w-[48%] mx-1 w-full'>
                         <label>Courses Offered</label>
                         <InputTag
                             onUpdateTags={(d) => setTags(d)} />
-
-                        {/* <ReactTags   
-                        className='w-full my-4 border-none bg-[#fff] shadow outline-none px-2 py-2 rounded' 
-                        inline={false} /> */}
                     </div>
+                    <div className='md:w-[48%] mx-1 w-full'>
+                        <label htmlFor="Category Type" style={{ marginBottom: 0, paddingBottom: 0, padding: 0, margin: 0 }}>Category Type</label>
+                        <select value={type} onChange={(e) => { setType(e.target.value) }} className='w-full my-2 border-none bg-[#fff] shadow outline-none px-2 py-2 rounded' >
+                            <option value={""}>Select type</option>
+                            <option value={"training provider"}>Training Provider</option>
+                            <option value={"practitioners"}>Practitioners</option>
+
+                        </select>
+
+                    </div>
+                    <div className='md:w-[100%] mx-1 w-full'>
+                        <label>Set Logo</label>
+                        <input type="file" onChange={(e) => { setLogo(e.target.files![0]) }} placeholder='Set Log' className='w-full my-4 border-none bg-[#fff] shadow outline-none px-2 py-2 rounded' />
+                    </div>
+
+                    
                     <div className='w-full mx-1 rounded-xl'>
                         <label>About</label>
 
